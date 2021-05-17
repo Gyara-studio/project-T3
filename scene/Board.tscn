@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scene/Slot.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var width = 360
+var cap = width / 3
+var history = []
+var cur = 0
+enum Piece {X = 1, O = 2}
+var now = Piece.O
+
+func _ready():
+	# set up po
+	for i in 3:
+		for j in 3:
+			var po = \"%d%d\" % [i, j]
+			var node = get_node(po)
+			var _ok = node.set_position(Vector2(i*cap, j*cap))
+			node.po = po
+			node.connect(\"slot_click\", self, \"move\")
+
+func takeback():
+	var last = history.pop_back()
+	if last == null:
+		return
+	var po = last[0]
+	get_node(po).clear()
+	flip_now()
+	if cur > 0:
+		cur -= 1
+		var back = history[cur]
+		if back[1] == Piece.X:
+			get_node(back[0]).set_x()
+		else:
+			get_node(back[0]).set_o()
+	
+
+func move(po: String):
+	var piece = now
+	var group = [po, piece]
+	if piece == Piece.X:
+		get_node(po).set_x()
+	else:
+		get_node(po).set_o()
+	history.push_back(group)
+	if len(history) >= 7:
+		# do something with history[cur]
+		var deal = history[cur]
+		get_node(deal[0]).clear()
+		cur += 1
+	flip_now()
+
+func flip_now():
+	if now == Piece.O:
+		now = Piece.X
+	else:
+		now = Piece.O
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasModulate
+
+var width = 360
+var cap = width / 3
+
+func _ready():
+	pass
+
+func _draw():
+	for i in 4:
+		draw_line(Vector2(cap*i, 0), Vector2(cap*i, width), Color(230, 230, 230), 1)
+	for i in 4:
+		draw_line(Vector2(0, cap*i), Vector2(width, cap*i), Color(230, 230, 230), 1)
+"
+
+[node name="Board" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="00" parent="." instance=ExtResource( 1 )]
+
+[node name="01" parent="." instance=ExtResource( 1 )]
+
+[node name="02" parent="." instance=ExtResource( 1 )]
+
+[node name="10" parent="." instance=ExtResource( 1 )]
+
+[node name="11" parent="." instance=ExtResource( 1 )]
+
+[node name="12" parent="." instance=ExtResource( 1 )]
+
+[node name="20" parent="." instance=ExtResource( 1 )]
+
+[node name="21" parent="." instance=ExtResource( 1 )]
+
+[node name="22" parent="." instance=ExtResource( 1 )]
+
+[node name="grid" type="CanvasModulate" parent="."]
+script = SubResource( 2 )
