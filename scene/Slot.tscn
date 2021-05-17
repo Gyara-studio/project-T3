@@ -16,7 +16,8 @@ func _ready():
 
 func on_click(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton && event.pressed:
-		emit_signal(\"slot_click\", po)
+		if status == Status.Null:
+			emit_signal(\"slot_click\", po)
 
 func set_o():
 	status = Status.O
