@@ -8,7 +8,11 @@ authors = ["me@gyara.moe"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-gdnative = "0.9.3"
+gdnative = { version = "0.9.3", optional = true }
+
+[features]
+default = ["gd"]
+gd = ["gdnative"]
 
 [lib]
 crate-type = ["cdylib"]
