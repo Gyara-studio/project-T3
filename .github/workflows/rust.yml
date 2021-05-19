@@ -18,7 +18,7 @@ jobs:
         with:
           command: test
 
-  test:
+  core:
     name: Core test
     runs-on: ubuntu-latest
     steps:
