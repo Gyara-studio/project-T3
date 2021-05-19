@@ -3,19 +3,18 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-var width = 360
-var cap = width / 3
-var history = []
-var cur = 0
-enum Piece {X = 1, O = 2}
-var now = Piece.O
+const width: int = 360
+const cap: int = width / 3
+var history: Array = []
+var cur: int = 0
+var now: int = g.Piece.O
 
 func _ready():
 	# set up po
 	var slotPck = preload(\"res://scene/Slot.tscn\")
 	for i in 3:
 		for j in 3:
-			var po = \"%d%d\" % [i, j]
+			var po: String = \"%d%d\" % [i, j]
 			var slot = slotPck.instance()
 			slot.set_name(po)
 			slot.po = po
@@ -27,38 +26,45 @@ func takeback():
 	var last = history.pop_back()
 	if last == null:
 		return
-	var po = last[0]
+	var po: String = last[0]
 	get_node(po).clear()
 	flip_now()
 	if cur > 0:
 		cur -= 1
-		var back = history[cur]
-		if back[1] == Piece.X:
+		var back: Array = history[cur]
+		if back[1] == g.Piece.X:
 			get_node(back[0]).set_x()
 		else:
 			get_node(back[0]).set_o()
-	
+
 
 func move(po: String):
-	var piece = now
-	var group = [po, piece]
-	if piece == Piece.X:
+	#if now != g.play_on:
+	#	return
+
+	var piece: int = now
+	var group := [po, piece]
+	if piece == g.Piece.X:
 		get_node(po).set_x()
 	else:
 		get_node(po).set_o()
 	history.push_back(group)
 	if len(history) >= 7:
 		# do something with history[cur]
-		var deal = history[cur]
+		var deal: Array = history[cur]
 		get_node(deal[0]).clear()
 		cur += 1
 	flip_now()
 
 func flip_now():
-	if now == Piece.O:
-		now = Piece.X
+	if now == g.Piece.O:
+		now = g.Piece.X
 	else:
-		now = Piece.O
+		now = g.Piece.O
+
+const win_cond := []
+func check_result():
+	pass
 "
 
 [sub_resource type="GDScript" id=2]

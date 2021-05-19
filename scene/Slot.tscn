@@ -6,7 +6,7 @@ script/source = "extends Node2D
 signal slot_click(po)
 
 enum Status {O = 2, X = 1, Null = 0}
-var status = Status.Null
+var status: int = Status.Null
 var po: String = \"\"
 var x = preload(\"res://assets/x.png\")
 var o = preload(\"res://assets/o.png\")
