@@ -109,11 +109,18 @@ func check_result() -> bool:
 
 
 func end_of_game():
-	print(\"end   \", now, \"   \", g.play_on)
+	$\"..\".disable_button()
 	if g.is_play_on(now):
 		g.winner = \"You\"
 	else:
 		g.winner = $player_another.player_name()
+	var t = Timer.new()
+	t.set_wait_time(1.5)
+	t.set_one_shot(true)
+	self.add_child(t)
+	t.start()
+	yield(t, \"timeout\")
+	t.queue_free()
 	var _ok = get_tree().change_scene(\"res://scene/Result.tscn\")
 "
 
