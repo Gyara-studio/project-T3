@@ -61,15 +61,15 @@ func move(po: String) -> bool:
 	else:
 		get_node(po).set_o()
 	history.push_back(group)
+	# check result before flip now
+	# To correctly decide who is winner
+	if check_result():
+		return true
 	if len(history) >= 7:
 		# do something with history[cur]
 		var deal: Array = history[cur]
 		get_node(deal[0]).clear()
 		cur += 1
-	# check result before flip now
-	# To correctly decide who is winner
-	if check_result():
-		return true
 	flip_now()
 	return false
 
@@ -88,14 +88,14 @@ func check_row(pf: String, ps: String, pt: String) -> bool:
 	return f == s && s == t
 
 func check_result() -> bool:
-	for i in 2:
+	for i in 3:
 		var po0: String = \"%d0\" % i
 		var po1: String = \"%d1\" % i
 		var po2: String = \"%d2\" % i
 		if check_row(po0, po1, po2):
 			end_of_game()
 			return true
-	for i in 2:
+	for i in 3:
 		var po0: String = \"0%d\" % i
 		var po1: String = \"1%d\" % i
 		var po2: String = \"2%d\" % i
@@ -114,6 +114,7 @@ func end_of_game():
 		g.winner = \"You\"
 	else:
 		g.winner = $player_another.player_name()
+	g.play_on = g.Piece.Null
 	var t = Timer.new()
 	t.set_wait_time(1.5)
 	t.set_one_shot(true)
