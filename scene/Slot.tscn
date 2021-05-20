@@ -11,32 +11,32 @@ var x = preload(\"res://assets/x.png\")
 var o = preload(\"res://assets/o.png\")
 
 func _ready():
-	var _ok = $Area.connect(\"input_event\", self, \"on_click\")
+    var _ok = $Area.connect(\"input_event\", self, \"on_click\")
 
 func on_click(_viewport, event, _shape_idx):
-	if event is InputEventMouseButton && event.pressed:
-		if piece == g.Piece.Null:
-			emit_signal(\"slot_click\", po)
+    if event is InputEventMouseButton && event.pressed:
+        if piece == g.Piece.Null:
+            emit_signal(\"slot_click\", po)
 
 func set_o():
-	piece = g.Piece.O
-	update()
+    piece = g.Piece.O
+    update()
 
 func set_x():
-	piece = g.Piece.X
-	update()
+    piece = g.Piece.X
+    update()
 
 func clear():
-	piece = g.Piece.Null
-	update()
+    piece = g.Piece.Null
+    update()
 
 func _draw():
-	if piece == g.Piece.O:
-		get_node(\"S\").texture = o
-	elif piece == g.Piece.X:
-		get_node(\"S\").texture = x
-	else:
-		get_node(\"S\").texture = null
+    if piece == g.Piece.O:
+        get_node(\"S\").texture = o
+    elif piece == g.Piece.X:
+        get_node(\"S\").texture = x
+    else:
+        get_node(\"S\").texture = null
 "
 
 [sub_resource type="GDScript" id=2]

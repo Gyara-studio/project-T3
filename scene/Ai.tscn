@@ -6,22 +6,22 @@
 script/source = "extends Node
 
 func _ready():
-	pass
+    pass
 
-func ask(hist: Array) -> String:
-	# hist is [[po, piece], [po, piece]]
-	var po_hist = []
-	for item in hist:
-		po_hist.push_back(item[0])
-	var next: String = $iA.solver(po_hist)
-	print(\"Ai move: \", next)
-	return next
+func ask(hist: Array) -> void:
+    # hist is [[po, piece], [po, piece]]
+    var po_hist = []
+    for item in hist:
+        po_hist.push_back(item[0])
+    var next: String = $iA.solver(po_hist)
+    print(\"Ai move: \", next)
+    $\"..\".move(next)
 
 func choose_first() -> int:
-	return g.Piece.O
+    return g.Piece.O
 
 func player_name() -> String:
-	return $iA.player_name()
+    return $iA.player_name()
 "
 
 [node name="Ai" type="Node"]

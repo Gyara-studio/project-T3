@@ -10,7 +10,7 @@ config_version=4
 
 [application]
 
-config/name="Project T3"
+config/name="project t3"
 run/main_scene="res://scene/Level select.tscn"
 config/icon="res://icon.png"
 
