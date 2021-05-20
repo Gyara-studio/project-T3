@@ -1,7 +1,9 @@
 #[cfg(feature = "gd")]
-use gdnative::godot_init;
-#[cfg(feature = "gd")]
 use gd::init;
+#[cfg(feature = "gd")]
+use gdnative::godot_init;
+
+mod algorithm;
 
 #[cfg(feature = "gd")]
 mod gd {
@@ -18,7 +20,12 @@ mod gd {
 
         #[export]
         fn solver(&self, _owner: &Node, input: Vec<String>) -> String {
-            "00".to_owned()
+            crate::algorithm::solve(input)
+        }
+
+        #[export]
+        fn player_name(&self, _owner: &Node) -> String {
+            format!("Player {}", std::env!("CARGO_PKG_VERSION"))
         }
     }
 

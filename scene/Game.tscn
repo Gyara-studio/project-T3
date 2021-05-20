@@ -5,12 +5,14 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
+var _ok;
+
 func _ready():
-	$takeback.connect(\"button_up\", $Board, \"takeback\")
-	$\"new game\".connect(\"button_up\", self, \"new_game\")
+	_ok = $takeback.connect(\"button_up\", $Board, \"takeback\")
+	_ok = $\"new game\".connect(\"button_up\", self, \"new_game\")
 
 func new_game():
-	get_tree().reload_current_scene()
+	_ok = get_tree().reload_current_scene()
 "
 
 [sub_resource type="GDScript" id=2]

@@ -5,8 +5,7 @@ script/source = "extends Node2D
 
 signal slot_click(po)
 
-enum Status {O = 2, X = 1, Null = 0}
-var status: int = Status.Null
+var piece: int = g.Piece.Null
 var po: String = \"\"
 var x = preload(\"res://assets/x.png\")
 var o = preload(\"res://assets/o.png\")
@@ -16,25 +15,25 @@ func _ready():
 
 func on_click(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton && event.pressed:
-		if status == Status.Null:
+		if piece == g.Piece.Null:
 			emit_signal(\"slot_click\", po)
 
 func set_o():
-	status = Status.O
+	piece = g.Piece.O
 	update()
 
 func set_x():
-	status = Status.X
+	piece = g.Piece.X
 	update()
 
 func clear():
-	status = Status.Null
+	piece = g.Piece.Null
 	update()
 
 func _draw():
-	if status == Status.O:
+	if piece == g.Piece.O:
 		get_node(\"S\").texture = o
-	elif status == Status.X:
+	elif piece == g.Piece.X:
 		get_node(\"S\").texture = x
 	else:
 		get_node(\"S\").texture = null

@@ -10,6 +10,13 @@ var cur: int = 0
 var now: int = g.Piece.O
 
 func _ready():
+	# set up ai
+	if g.is_computer():
+		var ai = load(\"res://scene/Ai.tscn\").instance()
+		ai.set_name(\"player_another\")
+		add_child(ai)
+	# choose first
+	g.play_on = $player_another.choose_first()
 	# set up po
 	var slotPck = preload(\"res://scene/Slot.tscn\")
 	for i in 3:
@@ -19,7 +26,7 @@ func _ready():
 			slot.set_name(po)
 			slot.po = po
 			slot.set_position(Vector2(i*cap, j*cap))
-			slot.connect(\"slot_click\", self, \"move\")
+			slot.connect(\"slot_click\", self, \"player_move\")
 			add_child(slot)
 
 func takeback():
@@ -37,11 +44,16 @@ func takeback():
 		else:
 			get_node(back[0]).set_o()
 
+func player_move(po: String):
+	if !g.is_play_on(now):
+		return
+	if move(po):
+		return
+	var another_move: String = $player_another.ask(history)
+	if move(another_move):
+		return
 
-func move(po: String):
-	#if now != g.play_on:
-	#	return
-
+func move(po: String) -> bool:
 	var piece: int = now
 	var group := [po, piece]
 	if piece == g.Piece.X:
@@ -54,7 +66,12 @@ func move(po: String):
 		var deal: Array = history[cur]
 		get_node(deal[0]).clear()
 		cur += 1
+	# check result before flip now
+	# To correctly decide who is winner
+	if check_result():
+		return true
 	flip_now()
+	return false
 
 func flip_now():
 	if now == g.Piece.O:
@@ -62,9 +79,42 @@ func flip_now():
 	else:
 		now = g.Piece.O
 
-const win_cond := []
-func check_result():
-	pass
+func check_row(pf: String, ps: String, pt: String) -> bool:
+	var f = get_node(pf).piece
+	var s = get_node(ps).piece
+	var t = get_node(pt).piece
+	if f == g.Piece.Null:
+		return false
+	return f == s && s == t
+
+func check_result() -> bool:
+	for i in 2:
+		var po0: String = \"%d0\" % i
+		var po1: String = \"%d1\" % i
+		var po2: String = \"%d2\" % i
+		if check_row(po0, po1, po2):
+			end_of_game()
+			return true
+	for i in 2:
+		var po0: String = \"0%d\" % i
+		var po1: String = \"1%d\" % i
+		var po2: String = \"2%d\" % i
+		if check_row(po0, po1, po2):
+			end_of_game()
+			return true
+	if check_row(\"00\", \"11\", \"22\") or check_row(\"02\", \"11\", \"20\"):
+		end_of_game()
+		return true
+	return false
+
+
+func end_of_game():
+	print(\"end   \", now, \"   \", g.play_on)
+	if g.is_play_on(now):
+		g.winner = \"You\"
+	else:
+		g.winner = $player_another.player_name()
+	var _ok = get_tree().change_scene(\"res://scene/Result.tscn\")
 "
 
 [sub_resource type="GDScript" id=2]
