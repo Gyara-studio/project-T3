@@ -28,6 +28,8 @@ func _ready():
             slot.set_position(Vector2(i*cap, j*cap))
             slot.connect(\"slot_click\", self, \"player_move\")
             add_child(slot)
+    if g.play_on == g.Piece.X:
+        $player_another.ask(history)
 
 func takeback():
     var last = history.pop_back()
@@ -52,6 +54,8 @@ func player_move(po: String):
     $player_another.ask(history)
 
 func move(po: String) -> bool:
+    if now == g.Piece.Null:
+        return true
     var piece: int = now
     var group := [po, piece]
     if piece == g.Piece.X:
@@ -108,8 +112,11 @@ func check_result() -> bool:
 
 func end_of_game():
     $\"..\".disable_button()
+    now = g.Piece.Null
     if g.is_play_on(now):
         g.winner = \"You\"
+        # patch
+        $player_another.ask(history)
     else:
         g.winner = $player_another.player_name()
     g.play_on = g.Piece.Null

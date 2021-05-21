@@ -18,7 +18,9 @@ func ask(hist: Array) -> void:
     $\"..\".move(next)
 
 func choose_first() -> int:
-    return g.Piece.O
+    var rng = RandomNumberGenerator.new()
+    rng.randomize()
+    return rng.randi_range(1, 2)
 
 func player_name() -> String:
     return $iA.player_name()
