@@ -1,15 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/title.png" type="Texture" id=1]
 [ext_resource path="res://assets/iosevka-ss10-medium.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://scripts/quit.gd" type="Script" id=3]
 [ext_resource path="res://assets/ttt.png" type="Texture" id=4]
-[ext_resource path="res://scripts/computer.gd" type="Script" id=5]
+[ext_resource path="res://scripts/Level select.gd" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 2 )
 
 [node name="Level select" type="Node2D"]
+script = ExtResource( 6 )
 
 [node name="title" type="Sprite" parent="."]
 position = Vector2( 280, 130 )
@@ -22,19 +22,28 @@ margin_right = 280.0
 margin_bottom = 270.0
 custom_fonts/font = SubResource( 1 )
 text = "Computer"
-script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="quit" type="Button" parent="."]
+[node name="online" type="Button" parent="."]
 margin_left = 130.0
 margin_top = 320.0
 margin_right = 280.0
 margin_bottom = 370.0
 custom_fonts/font = SubResource( 1 )
+text = "Online"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit" type="Button" parent="."]
+margin_left = 129.0
+margin_top = 420.0
+margin_right = 279.0
+margin_bottom = 470.0
+custom_fonts/font = SubResource( 1 )
 text = "Quit"
-script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
