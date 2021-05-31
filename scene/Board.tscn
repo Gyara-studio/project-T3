@@ -10,11 +10,6 @@ var cur: int = 0
 var now: int = g.Piece.O
 
 func _ready():
-    # set up ai
-    if g.is_computer():
-        var ai = load(\"res://scene/Ai.tscn\").instance()
-        ai.set_name(\"player_another\")
-        add_child(ai)
     # choose first
     g.play_on = $player_another.choose_first()
     # set up po

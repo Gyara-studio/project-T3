@@ -3,7 +3,7 @@ extends Node2D
 var _ok
 
 func _ready():
-    _ok = $computer.connect("button_up", self, "choose_computer")
+    # _ok = $computer.connect("button_up", self, "choose_computer")
     _ok = $online.connect("button_up", self, "choose_online")
     _ok = $quit.connect("button_up", self, "choose_quit")
 
